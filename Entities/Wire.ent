@@ -1,0 +1,24 @@
+print("Loaded Entity class: Wire")
+
+
+local ent = GameEntity[1]:new({},true) -- New class from AIR (Inherits AIR)
+
+ -- Sets constructor funcion
+ function ent:constructor()
+     self.type = "Wire"
+ end
+
+-- May have unique Update and Draw functions below.
+function ent:MainUpdate()
+
+end
+function ent:MainDraw()
+    love.graphics.reset()
+    local line = love.graphics.getLineWidth()
+    love.graphics.setLineWidth(10)
+    love.graphics.line(self.x + self.w/2 -1,self.y + self.h/2 , self.x + self.w/2 +1, self.y + self.h/2)
+    love.graphics.setLineWidth(line)
+end
+
+-- Adds the entity class to the game
+table.insert(GameEntity,ent)

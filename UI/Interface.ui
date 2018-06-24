@@ -1,0 +1,9 @@
+print("Loaded UI class: Interface")
+-- Inherits from mainClass
+
+local UI = GameUI.mainClass:new({},true)
+function UI:constructor()
+    self.type = "Interface"
+end
+
+GameUI.interface = UI

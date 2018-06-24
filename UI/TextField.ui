@@ -1,0 +1,26 @@
+print("Loaded UI class: TextField")
+-- Inherits from mainClass
+
+local UI = GameUI.mainClass:new({},true)
+function UI:constructor()
+    self.type = "TextField"
+    self.text = ""
+
+    self.background = {0,0,0,0}
+    self.color = {255,255,255,255}
+end
+
+function UI:MainDraw()
+    love.graphics.reset()
+    love.graphics.setColor(self.color)
+    love.graphics.print(self.text, self.x, self.y)
+end
+
+function UI:SetText(str)
+    self.text = str
+end
+function UI:GetText()
+    return self.text
+end
+
+GameUI.textField = UI
