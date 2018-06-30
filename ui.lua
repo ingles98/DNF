@@ -23,11 +23,18 @@ function UI:new(o, f)
     end
     setmetatable(o,self)
     self.__index = self
-    self:constructor()
+    self:Constructor()
     return o
 end
-function UI:constructor()
+function UI:Constructor()
     self.type = "Blank"
+end
+function UI:AddContent(cnt)
+    cnt.parent = self
+    cnt.margin = {}
+    cnt.margin.x = 0
+    cnt.margin.y = 0
+    table.insert(self.content,cnt )
 end
 
 function UI:MainDraw()
@@ -39,14 +46,13 @@ function UI:Draw()
     self:MainDraw()
 
     if not self.isContent then
-        love.graphics.push()
-        love.graphics.translate(self.x,self.y)
-        for k,v in pairs(self.content) do
-            v:Draw()
-        end
-        love.graphics.pop()
+      for k,v in pairs(self.content) do
+          v:Draw()
+      end
     end
+
 end
+
 
 function UI:SetDimensions(x,y,w,h)
     self.x = x
@@ -84,6 +90,15 @@ function UI:Update()
         MouseOnUI = false
         self.hovered = false
     end
+    if self.isContent then
+        self.x = self.parent.x + self.margin.x
+        self.y = self.parent.y + self.margin.y
+
+    else
+        for k,v in pairs(self.content) do
+            v:Update()
+        end
+    end
     self:MainUpdate()
     self.wasHovered = self.hovered
 end
@@ -113,18 +128,23 @@ end
 
 local ui = GameUI.interface:new()
 function ui:OnScreenResize(w,h)
-    self:SetDimensions(love.graphics.getWidth()-300,0,300,love.graphics.getHeight())
+    local x = love.graphics.getWidth()-300
+    local height = love.graphics.getHeight()
+    self:SetDimensions(x,0,300,height)
 end
 ui:OnScreenResize()
 ui.title = "Main Interface"
 ui.alpha = 175
 ui.background = {0,0,0}
---[[
+
 local content = GameUI.interface:new({},"content")
-table.insert(ui.content,content )
-]]-- A working example of content inside a UI element
+ui:AddContent(content)
+-- A working example of content inside a UI element
 UITable.MainInterface = ui
 UITable["MainInterface"]:SetVisible(true)
+
+UITable["MainInterface"]:AlignContent(1,"right")
+
 
 local EntityViewer = GameUI.interface:new()
 

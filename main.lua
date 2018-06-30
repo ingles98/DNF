@@ -53,7 +53,7 @@ function love.keypressed(key, scancode, isrepeat)
 end
 
 function love.resize(w, h)
-    for k,v in ipairs(UITable) do
+    for k,v in pairs(UITable) do
         v:OnScreenResize(w,h)
     end
 end
