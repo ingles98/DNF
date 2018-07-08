@@ -146,18 +146,15 @@ UITable["MainInterface"]:SetVisible(true)
 UITable["MainInterface"]:AlignContent(1,"right")
 
 
-local EntityViewer = GameUI.interface:new()
+local EV = GameUI.interface:new()
+EV.background = {255,0,0}
+EV.alpha = 200
+EV.parent = UITable.MainInterface
+EV.x = EV.parent.x
+EV.y = EV.parent.y
 
-
-
-
-
-
-
-
-
-
-
+UITable.EntityViewer = EV
+UITable.EntityViewer:SetVisible(true)
 
 
 --

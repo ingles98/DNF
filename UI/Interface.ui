@@ -7,13 +7,15 @@ function UI:Constructor()
 end
 
 function UI:AlignContent(cnt, align)
-    cnt = self.content[1]
-    if align == "left" then
-        cnt.margin.x = 0
-    elseif align == "center" then
-        cnt.margin.x = self.w/2 - cnt.w/2
-    elseif align == "right" then
-        cnt.margin.x = self.w - cnt.w
+    if self.content[cnt] then
+        cnt = self.content[cnt]
+        if align == "left" then
+            cnt.margin.x = 0
+        elseif align == "center" then
+            cnt.margin.x = self.w/2 - cnt.w/2
+        elseif align == "right" then
+            cnt.margin.x = self.w - cnt.w
+        end
     end
 end
 
