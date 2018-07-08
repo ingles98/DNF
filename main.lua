@@ -23,13 +23,12 @@ function love.update(dt)
 end
 
 function love.draw()
-    local r,g,b,a = love.graphics.getColor()
     love.graphics.push()
     love.graphics.translate(-Camera.distX,-Camera.distY)
     love.graphics.scale(Camera.scale)
-    love.graphics.setColor(50,175,50,255)
+    love.graphics.setColor(50/255,175/255,50/255,255/255)
     love.graphics.rectangle("fill", 64, 64, (gridLength+1)*Entity.w, (gridLength-1)*Entity.h)
-    love.graphics.setColor(r,g,b,a)
+
     for k,v in ipairs(Entities) do
         v:Draw()
     end
@@ -37,7 +36,7 @@ function love.draw()
     for k,v in ipairs(UIDrawTable) do
         v:Draw()
     end
-    love.graphics.setColor(r,g,b,a)
+
 end
 
 function love.keypressed(key, scancode, isrepeat)

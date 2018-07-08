@@ -9,8 +9,8 @@ local UI = {
     w = 128,
     h = 128,
     alpha = 255,
-    color = {255,255,255,255},
-    background = {255,255,255,255},
+    color = {1,1,1,1},
+    background = {1,1,1,1},
     content = {},
 }
 
@@ -117,7 +117,7 @@ local filesTable = lfs.getDirectoryItems("UI")
 
 for k, v in ipairs(filesTable) do
     local file = "UI/"..v
-    if lfs.isFile(file) then
+    if lfs.getInfo(file,"file") then
         local _,_,a,b = string.find(v, "(%a+).(%a+)")
         if b == "ui" then
             dofile(file)
@@ -134,7 +134,7 @@ function ui:OnScreenResize(w,h)
 end
 ui:OnScreenResize()
 ui.title = "Main Interface"
-ui.alpha = 175
+ui.alpha = 175/255
 ui.background = {0,0,0}
 
 local content = GameUI.interface:new({},"content")
@@ -147,8 +147,8 @@ UITable["MainInterface"]:AlignContent(1,"right")
 
 
 local EV = GameUI.interface:new()
-EV.background = {255,0,0}
-EV.alpha = 200
+EV.background = {255/255,0,0}
+EV.alpha = 200/255
 EV.parent = UITable.MainInterface
 EV.x = EV.parent.x
 EV.y = EV.parent.y

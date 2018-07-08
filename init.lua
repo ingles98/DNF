@@ -87,7 +87,7 @@ end
 function Entity:Update()
     if self:OnMouseOver() and not self.hovered then
         print("Hovering: "..self.uID..", "..self.type)
-        self.alpha = 155
+        self.alpha = 155/255
         self.hovered = true
     elseif not self:OnMouseOver() and self.wasHovered then
         self.alpha = 0
@@ -99,9 +99,9 @@ end
 
 function Entity:DrawHover()
     love.graphics.reset()
-    love.graphics.setColor(255, 255, 255, self.alpha)
+    love.graphics.setColor(1, 1, 1, self.alpha)
     love.graphics.rectangle("fill", self.x, self.y, self.w, self.h)
-    love.graphics.setColor(0, 0, 0, 255)
+    love.graphics.setColor(0, 0, 0, 1)
     love.graphics.rectangle("line", self.x, self.y, self.x + self.w, self.y + self.h)
 end
 function Entity:MainDraw()
@@ -120,7 +120,7 @@ local filesTable = lfs.getDirectoryItems("Entities")
 
 for k, v in ipairs(filesTable) do -- Loads any '.ent' and executes in "Entities" folder.
     local file = "Entities/"..v
-    if lfs.isFile(file) then
+    if lfs.getInfo(file,"file") then
         local _,_,a,b = string.find(v, "(%a+).(%a+)")
         if b == "ent" then
             dofile(file)
