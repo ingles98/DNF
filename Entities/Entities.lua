@@ -1,12 +1,5 @@
-Camera = {
-    distX = 0,
-    distY = 0,
-    scale = 1
-}
 
 Entities = {}
-mainGrid = {}
-gridLength = 30
 
 Entity = {
     x = 0,
@@ -128,14 +121,8 @@ for k, v in ipairs(filesTable) do -- Loads any '.ent' and executes in "Entities"
 end
 
 
-for i=1,gridLength -1 do
-    mainGrid[i] = {}
-    for j=1,gridLength +1 do
-        mainGrid[i][j] = 1
-        if i == 2 and j == 2 then mainGrid[i][j] = 2 end
-        table.insert(Entities, GameEntity[mainGrid[i][j]]:new({x = Entity.w*j, y = Entity.h*i}))
-    end
-end
+
+
 
 for k,v in ipairs(Entities) do
     v:init()

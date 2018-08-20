@@ -8,7 +8,7 @@ local UI = {
     y = 0,
     w = 128,
     h = 128,
-    alpha = 255,
+    alpha = 1,
     color = {1,1,1,1},
     background = {1,1,1,1},
     content = {},
@@ -39,7 +39,7 @@ end
 
 function UI:MainDraw()
     love.graphics.reset()
-    love.graphics.setColor(self.background[1],self.background[2],self.background[3],self.alpha)
+    love.graphics.setColor(self.background[1],self.background[2],self.background[3],self.background[4])
     love.graphics.rectangle("fill", self.x, self.y, self.w, self.h)
 end
 function UI:Draw()

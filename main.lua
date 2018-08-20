@@ -1,58 +1,63 @@
 
 require 'init'
 function love.update(dt)
-    for k,v in pairs(UITable) do
-        v:Update()
-    end
-    for k,v in pairs(Entities) do
-        v:Update()
-    end
+    networking(dt)
+    GAME:update(dt)
 
-    if love.keyboard.isDown("up") then
-        Camera.distY =Camera.distY - 8
-    end
-    if love.keyboard.isDown("down") then
-        Camera.distY = Camera.distY +8
-    end
-    if love.keyboard.isDown("left") then
-        Camera.distX = Camera.distX -8
-    end
-    if love.keyboard.isDown("right") then
-        Camera.distX = Camera.distX +8
+    for i,f in pairs(EVENT.update) do
+        f();
     end
 end
 
 function love.draw()
-    love.graphics.push()
-    love.graphics.translate(-Camera.distX,-Camera.distY)
-    love.graphics.scale(Camera.scale)
-    love.graphics.setColor(50/255,175/255,50/255,255/255)
-    love.graphics.rectangle("fill", 64, 64, (gridLength+1)*Entity.w, (gridLength-1)*Entity.h)
-
-    for k,v in ipairs(Entities) do
-        v:Draw()
+    GAME:draw()
+    for i,f in pairs(EVENT.draw) do
+        f();
     end
-    love.graphics.pop()
-    for k,v in ipairs(UIDrawTable) do
-        v:Draw()
-    end
-
 end
 
 function love.keypressed(key, scancode, isrepeat)
-    if key == '+' and Camera.scale <=3 then
-        Camera.scale = Camera.scale+0.1
-        Camera.distX = Camera.distX + Camera.distX*0.1
-        Camera.distY = Camera.distY + Camera.distY*0.1
-    elseif key == '-' and Camera.scale >= 0.2 then
-        Camera.scale = Camera.scale-0.1
-        Camera.distX = Camera.distX - Camera.distX*0.1
-        Camera.distY = Camera.distY - Camera.distY*0.1
+    GAME:keypressed(key, scancode, isrepeat)
+    if key == 'return' then
+        if GAME.isOn == false then
+            if #ConnectBlock.portField.text == 0 then
+                ConnectBlock.portField.text = tostring(DEFAULT_PORT)
+            end
+            if #ConnectBlock.ipField.text == 0 then
+                ConnectBlock.ipField.text = DEFAULT_IP
+            end
+            if ConnectBlock.ipField.text == "localhost" then
+                local ip, port = Client.getIP()
+                ConnectBlock.ipField.text = ip
+            end
+            Client.sockName = {ConnectBlock.ipField.text, tonumber(ConnectBlock.portField.text)}
+            GAME:init()
+        elseif GAME.isOn==true then
+            GAME:kill()
+        end
+    elseif key == 'f10' then
+        for x,v in pairs(TileMap) do
+            for y,vv in pairs(TileMap[x]) do
+                TileMap[x][y]["id"] = 2
+                TileBatch_update()
+            end
+        end
+    end
+end
+
+function love.textinput(text)
+    for k,v in pairs(EVENT.textinput) do
+        --if v.isActive == true then
+            v(text)
+        --end
     end
 end
 
 function love.resize(w, h)
-    for k,v in pairs(UITable) do
-        v:OnScreenResize(w,h)
+    --for k,v in pairs(UITable) do
+    --    v:OnScreenResize(w,h)
+    --end
+    for k,v in pairs(EVENT.resize) do
+        v()
     end
 end

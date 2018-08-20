@@ -7,7 +7,7 @@ function UI:constructor()
     self.text = ""
 
     self.background = {0,0,0,0}
-    self.color = {255,255,255,255}
+    self.color = {1,1,1,1}
 end
 
 function UI:MainDraw()
@@ -16,10 +16,10 @@ function UI:MainDraw()
     love.graphics.print(self.text, self.x, self.y)
 end
 
-function UI:SetText(str)
+function UI:setText(str)
     self.text = str
 end
-function UI:GetText()
+function UI:getText()
     return self.text
 end
 
